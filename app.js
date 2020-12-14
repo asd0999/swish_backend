@@ -1,11 +1,11 @@
 // // dependencies
 const express = require("express");
-const http = require("http");
+// const http = require("http");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const morgan = require("morgan");
 const socketIo = require("socket.io");
-// const https = require("https");
+const https = require("https");
 // const fs = require("fs");
 
 // env variables
@@ -13,8 +13,8 @@ const PORT = 4000;
 
 // initialize instance of express, http, ws, peerserver
 const app = express();
-const httpServer = http.createServer(app);
-const io = socketIo(httpServer);
+const httpsServer = https.createServer(app);
+const io = socketIo(httpsServer);
 
 // middleware
 app.use(express.json());
@@ -182,6 +182,6 @@ io.on("connection", function(socket) {
 });
 
 // listener
-httpServer.listen(process.env.PORT || 4000, () => {
+httpsServer.listen(process.env.PORT || 4000, () => {
     console.log(`HTTP server listening on port ${PORT}`);
 });
