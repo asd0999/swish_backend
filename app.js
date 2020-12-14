@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const morgan = require("morgan");
 const socketIo = require("socket.io");
-// const https = require("https");
+const https = require("https");
 // const fs = require("fs");
 
 // env variables
@@ -30,20 +30,20 @@ app.use(cors(corsOptions));
 
 // routes
 // unprotected get route
-app.get("/api", (req, res) => {
+app.get("/", (req, res) => {
     res.json({
         message: "API is working",
     });
 });
 
 // protected post route
-app.post("/api/posts", verifyToken, (req, res) => {
+app.post("/api/mydevices", verifyToken, (req, res) => {
     jwt.verify(req.token, "some_secret_key", (err, authData) => {
         if (err) {
             res.sendStatus(403);
         } else {
             res.json({
-                message: "Post created... ",
+                message: "My devices... ",
                 authData,
             });
         }
