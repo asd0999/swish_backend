@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const morgan = require("morgan");
 const socketIo = require("socket.io");
-const https = require("https");
+// const https = require("https");
 // const fs = require("fs");
 
 // env variables
@@ -182,6 +182,6 @@ io.on("connection", function(socket) {
 });
 
 // listener
-httpServer.listen(PORT, () => {
+httpServer.listen(process.env.PORT || 4000, () => {
     console.log(`HTTP server listening on port ${PORT}`);
 });
