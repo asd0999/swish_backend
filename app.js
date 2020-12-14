@@ -183,5 +183,5 @@ io.on("connection", function(socket) {
 
 // listener
 httpsServer.listen(process.env.PORT || 4000, () => {
-    console.log(`HTTP server listening on port ${PORT}`);
+    console.log(`HTTPS server listening on port ${PORT}`);
 });
