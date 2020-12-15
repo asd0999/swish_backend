@@ -124,24 +124,34 @@ io.on("connection", function(socket) {
         if (clients[socket.id]) {
             clients[socket.id]["otp"] = otp;
         }
-
+        let foundPeer = false;
         for (const socket_id of Object.keys(clients)) {
             if (socket_id == socket.id) {
                 continue;
             }
-            if (clients[socket_id]["otp"] == clients[socket.id]["otp"]) {
+            if (
+                clients[socket_id]["otp"] == clients[socket.id]["otp"] &&
+                !foundPeer
+            ) {
                 console.log("Found matching otp. Pairing complete:");
                 console.log("sender:", socket_id, "\nreceiver:", socket.id);
                 //receiver send peer_socket_id
                 clients[socket.id]["peer_socket_id"] = socket_id;
                 socket.emit("peerSocketId", socket_id);
                 clients[socket.id]["otp"] += "_matched";
+                foundPeer = true;
 
                 //sender send peer_socket_id
                 clients[socket_id]["peer_socket_id"] = socket.id;
                 io.to(socket_id).emit("peerSocketId", socket.id);
                 clients[socket_id]["otp"] += "_matched";
             }
+        }
+        if (!foundPeer) {
+            setTimeout(() => {
+                socket.emit("wrongOTP");
+            }, 1000);
+            console.log("wrong OTP");
         }
         console.log(clients);
     });
