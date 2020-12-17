@@ -179,6 +179,10 @@ io.on("connection", function(socket) {
         io.to(clients[socket.id].peer_socket_id).emit("link", data);
     });
 
+    socket.on("peerDisconnected", () => {
+        io.to(clients[socket.id].peer_socket_id).emit("peerDisconnected");
+    });
+
     socket.on("disconnect", () => {
         console.log("Client disconnected:", socket.id);
         if (clients[socket.id]) {
